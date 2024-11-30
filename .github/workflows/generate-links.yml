@@ -20,8 +20,8 @@ jobs:
           # 使用 GitHub API 获取文件列表，并检查响应
           curl -s "https://api.github.com/repos/hjpwyb/TV2/contents?ref=master" > raw_file_list.json
           cat raw_file_list.json  # 输出原始文件列表，便于调试
-          # 过滤出 txt 和 json 文件，创建 file_urls.json
-          cat raw_file_list.json | jq '[.[] | select(.name | test("\\.txt$|\\.json$")) | {name: .name, url: .download_url}]' > file_urls.json
+          # 过滤出 txt 和 json 文件，并将链接加上前缀 https://ghp.ci/
+          cat raw_file_list.json | jq '[.[] | select(.name | test("\\.txt$|\\.json$")) | {name: .name, url: ("https://ghp.ci/" + .download_url)}]' > file_urls.json
           cat file_urls.json  # 输出生成的 file_urls.json 文件，便于检查
 
       - name: Create all.json with Share Links
