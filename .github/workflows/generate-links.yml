@@ -18,7 +18,7 @@ jobs:
         id: get_files
         run: |
           # 使用 GitHub API 获取文件列表，并检查响应
-          curl -s "https://api.github.com/repos/hjpwyb/TV2/contents?ref=main" > raw_file_list.json
+          curl -s "https://api.github.com/repos/hjpwyb/TV2/contents?ref=master" > raw_file_list.json
           cat raw_file_list.json  # 输出原始文件列表，便于调试
           # 过滤出 txt 和 json 文件，创建 file_urls.json
           cat raw_file_list.json | jq '[.[] | select(.name | test("\\.txt$|\\.json$")) | {name: .name, url: .download_url}]' > file_urls.json
