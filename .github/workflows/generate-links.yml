@@ -17,9 +17,8 @@ jobs:
       - name: Get File List from GitHub Repository
         id: get_files
         run: |
-          # 使用 GitHub API 获取文件列表，并输出原始数据
-          curl -s "https://api.github.com/repos/hjpwyb/TV2/contents?ref=main" > raw_file_list.json
-          cat raw_file_list.json  # 输出返回的原始数据
+          # 使用 GitHub API 获取文件列表
+          curl -s "https://api.github.com/repos/hjpwyb/TV2/contents?ref=main" | jq '[.[] | select(.name | test("\\.txt$|\\.json$")) | {name: .name, url: .download_url}]' > file_urls.json
 
       - name: Create all.json with Share Links
         run: |
